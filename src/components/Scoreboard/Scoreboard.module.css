@@ -1,0 +1,17 @@
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    padding: 0 10px;
+    border: #63dafc 3px solid;
+    border-radius: 10px;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.red {
+    color: red;
+    font-weight: 700;
+    transform: scale(1.2);
+}

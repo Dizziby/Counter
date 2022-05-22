@@ -1,0 +1,14 @@
+.btn {
+    font-size: 36px;
+    font-weight: 700;
+    background-color: #63dafc;
+    padding: 0 5px;
+    border-radius: 10px;
+    margin: 10px 20px;
+    cursor: pointer;
+    transition: transform .2s linear;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}

@@ -1,0 +1,19 @@
+.input {
+    display: inline-block;
+    border: #63dafc 3px solid;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 130px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.input:focus {
+    outline: none;
+}
+
+.error {
+    border-color: #ab2b2b;
+    background-color: #dc8484;
+}
