@@ -1,59 +1,54 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './CounterOne.css';
 import Scoreboard from "./components/Scoreboard/Scoreboard";
 import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
+import {useAppDispatch, useAppSelector} from "./redux/store";
+import {setCounterAC, setErrorAC, setMaxValueAC, setStartValueAC} from "./redux/reducer";
 
 function CounterOne() {
 
-    const useLocalStorageList = (key: string, defaultValue: number | boolean) => {
-        const [ state, setState ] = useState(()=>JSON.parse(localStorage.getItem(key) || String(defaultValue)))
-        useEffect(()=>{
-                localStorage.setItem(key, JSON.stringify(state))
-        },[state])
-        return [ state, setState ]
-    }
+    const dispatch = useAppDispatch()
 
-    const [startValue, setStartValue] = useLocalStorageList('startValue',0)
-    const [maxValue, setMaxValue] = useLocalStorageList('maxValue',5)
-    const [count, setCounter] = useLocalStorageList('count',0)
-    const [error, setError] = useLocalStorageList('false',false)
+    const startValue = useAppSelector(state => state.reducer.startValue)
+    const maxValue = useAppSelector(state => state.reducer.maxValue)
+    const count = useAppSelector(state => state.reducer.count)
+    const error = useAppSelector(state => state.reducer.error)
 
     const incrementValueCount = () => {
         if (typeof count === "number") {
-            setCounter(count + 1)
+            dispatch(setCounterAC(count + 1))
         }
     }
 
     const resetValueCount = () => {
-        setCounter(startValue)
+        dispatch(setCounterAC(startValue))
     }
 
     const setValueCount = () => {
         if (!error && startValue !== count) {
-            setCounter(startValue)
+            dispatch(setCounterAC(startValue))
         }
     }
 
     const setStart = (value: number) => {
-        setStartValue(value)
+        dispatch(setStartValueAC(value))
         if (value < 0 || maxValue <= 0 || maxValue <= value) {
-            setError(true)
+            dispatch(setErrorAC(true))
         } else {
-            setError(false)
+            dispatch(setErrorAC(false))
         }
-        setCounter("enter values and press 'set'")
+        dispatch(setCounterAC("enter values and press 'set'"))
     }
 
     const setMax = (value: number) => {
-        setMaxValue(value)
+        dispatch(setMaxValueAC(value))
         if (startValue < 0 || value <= 0 || value <= startValue) {
-            setError(true)
+            dispatch(setErrorAC(true))
         } else {
-            setError(false)
+            dispatch(setErrorAC(false))
         }
-        setCounter("enter values and press 'set'")
-
+        dispatch(setCounterAC("enter values and press 'set'"))
     }
 
     return (

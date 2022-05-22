@@ -1,55 +1,54 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './CounterOne.css';
 import Scoreboard from "./components/Scoreboard/Scoreboard";
 import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
+import {useAppDispatch, useAppSelector} from "./redux/store";
+import {setCounterAC, setErrorAC, setMaxValueAC, setScoreboardInputAC, setStartValueAC} from "./redux/reducer";
 
 function CounterTwo() {
 
-    const useLocalStorageList = (key: string, defaultValue: number | boolean) => {
-        const [state, setState] = useState(() => JSON.parse(localStorage.getItem(key) || String(defaultValue)))
-        useEffect(() => {
-            localStorage.setItem(key, JSON.stringify(state))
-        }, [state])
-        return [state, setState]
-    }
+    const dispatch = useAppDispatch()
 
-    const [startValue, setStartValue] = useLocalStorageList('startValue', 0)
-    const [maxValue, setMaxValue] = useLocalStorageList('maxValue', 5)
-    const [count, setCounter] = useLocalStorageList('count', 0)
-    const [error, setError] = useLocalStorageList('error', false)
-    const [scoreboardInput, setScoreboardInput] = useLocalStorageList('error', false)
+    const startValue = useAppSelector(state => state.reducer.startValue)
+    const maxValue = useAppSelector(state => state.reducer.maxValue)
+    const count = useAppSelector(state => state.reducer.count)
+    const error = useAppSelector(state => state.reducer.error)
+    const scoreboardInput = useAppSelector(state => state.reducer.scoreboardInput)
+
 
     const incrementValueCount = () => {
-        setCounter(count + 1)
+        if (typeof count === "number") {
+            dispatch(setCounterAC(count + 1))
+        }
     }
 
     const resetValueCount = () => {
-        setCounter(startValue)
+        dispatch(setCounterAC(startValue))
     }
 
     const setValueCount = () => {
         if (!error) {
-            setCounter(startValue)
+            dispatch(setCounterAC(startValue))
         }
-        setScoreboardInput(!scoreboardInput)
+        dispatch(setScoreboardInputAC(!scoreboardInput))
     }
 
     const setStart = (value: number) => {
-        setStartValue(value)
+        dispatch(setStartValueAC(value))
         if (value < 0 || maxValue <= 0 || maxValue <= value) {
-            setError(true)
+            dispatch(setErrorAC(true))
         } else {
-            setError(false)
+            dispatch(setErrorAC(false))
         }
     }
 
     const setMax = (value: number) => {
-        setMaxValue(value)
+        dispatch(setMaxValueAC(value))
         if (startValue < 0 || value <= 0 || value <= startValue) {
-            setError(true)
+            dispatch(setErrorAC(true))
         } else {
-            setError(false)
+            dispatch(setErrorAC(false))
         }
     }
 
